@@ -1,12 +1,36 @@
 #include <stdio.h>
+#define CYAN    "\033[36m" // Cor ciano
+#define GREEN   "\033[32m" // Cor verde
+#define BLUE    "\033[34m" // Cor azul
+#define RED     "\033[31m" // Cor vermelha
+#define RESET   "\033[0m"  // Resetar cor para padrão
+/*
+#define RESET   "\033[0m"  // Resetar cor para padrão
+#define RED     "\033[31m" // Cor vermelha
+#define GREEN   "\033[32m" // Cor verde
+#define YELLOW  "\033[33m" // Cor amarela
+#define BLUE    "\033[34m" // Cor azul
+#define MAGENTA "\033[35m" // Cor magenta
+#define CYAN    "\033[36m" // Cor ciano
+#define WHITE   "\033[37m" // Cor branca
+
+    - Exemplo de uso das cores
+    printf(RED "Texto em vermelho\n" RESET);
+    printf(GREEN "Texto em verde\n" RESET);
+    printf(YELLOW "Texto em amarelo\n" RESET);
+    printf(BLUE "Texto em azul\n" RESET);
+    printf(MAGENTA "Texto em magenta\n" RESET);
+    printf(CYAN "Texto em ciano\n" RESET);
+    printf(WHITE "Texto em branco\n" RESET);
+*/
 
 // Função para mostrar o tabuleiro
 void mostrar_tab (char tab[3][3]){
-    printf("%c | %c | %c", tab[0][0], tab[0][1],  tab[0][2] );
-    printf("\n---------\n");
-    printf("%c | %c | %c", tab[1][0], tab[1][1],  tab[1][2] );
-    printf("\n---------\n");
-    printf("%c | %c | %c", tab[2][0], tab[2][1],  tab[2][2] );
+    printf(CYAN"%c | %c | %c"RESET, tab[0][0], tab[0][1],  tab[0][2] );
+    printf(CYAN"\n---------\n"RESET);
+    printf(CYAN"%c | %c | %c"RESET, tab[1][0], tab[1][1],  tab[1][2] );
+    printf(CYAN"\n---------\n"RESET);
+    printf(CYAN"%c | %c | %c"RESET, tab[2][0], tab[2][1],  tab[2][2] );
     printf("\n");
 }
 
@@ -48,7 +72,7 @@ int main() {
         char marcador = (cont % 2 == 0) ? 'X' : 'O';
         
         // Recebe a posição diretamente do usuário
-        printf("\n\nJogador %c, escolha uma posição [1-9]: ", marcador);
+        printf("\n\nJogador %c, escolha uma posicao [1-9]: ", marcador);
         scanf("%d", &posicao);
         // Converte a posição para linha e coluna usando switch
         switch(posicao) {
@@ -65,8 +89,9 @@ int main() {
         }
         
         if (matriz[lin][col] == 'X' || matriz[lin][col] == 'O') {
-            printf("Posição já ocupada! Tente novamente.\n");
+            printf(RED"Posicao ja ocupada! Tente novamente.\n"RESET);
             cont--;
+            system("pause");
             continue;
         }
         
@@ -74,13 +99,13 @@ int main() {
         
         if (verificar_vencedor(matriz)) {
             mostrar_tab(matriz);
-            printf("\nJogador %c venceu!\n", marcador);
+            printf(GREEN"\nJogador %c venceu!\n"RESET, marcador);
             return 0;
         }
     }
     
     mostrar_tab(matriz);
-    printf("\nEmpate!\n");
+    printf(BLUE"\nEmpate!\n");
 
     return 0;
 }
