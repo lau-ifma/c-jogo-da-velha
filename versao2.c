@@ -106,6 +106,10 @@ int main() {
     printf("------ bem vindo ---------\n");
     printf("------ jogo da velha---------\n");
     printf("\n 1 - INICIAR NOVO JOGO \n 0 - SAIR\n>>");
+    scanf("%d", &op);
+    if (op == 1){
+
+   
     do {
         iniciar_jogo();
         // Exibe o placar geral
@@ -126,6 +130,7 @@ int main() {
         }
 
     } while (partidas <= 4);
+    }
 
     printf("Obrigado por jogar!\n");
 
