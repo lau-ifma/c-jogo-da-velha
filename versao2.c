@@ -20,7 +20,8 @@ void mostrar_tab(char tab[3][3]) {
 }
 
 char verificar_vencedor(char tab[3][3]) {
-    for (int i = 0; i < 3; i++) {
+	int i;
+    for (i = 0; i < 3; i++) {
         if (tab[i][0] == tab[i][1] && tab[i][1] == tab[i][2]) {
             return tab[i][0];
         }
@@ -37,12 +38,25 @@ char verificar_vencedor(char tab[3][3]) {
     return 0;
 }
 
+void exibirPlacar(int vitoriasX, int vitoriasO) {
+    printf(CYAN);
+    printf("----------------------------\n");
+    printf("----   PLACAR DO JOGO   ----\n");
+    printf("----------------------------\n");
+    printf("  Vitorias X: %d       \n", vitoriasX);
+    printf("  Vitorias O: %d       \n", vitoriasO);
+    //printf("  Empates: %d          \n", empate);
+    printf("---------------------------\n");
+    printf(RESET);
+    // system("pause");
+}
+
 int menu(){
     int escolha;
-    printf("===========================\n");
-    printf("====== JOGO DA VELHA ======\n");
-    printf("===========================\n");
-    printf("\n------MENU DE OPCOES-------\n\n");
+    printf("---------------------------\n");
+    printf("------ JOGO DA VELHA ------\n");
+    printf("---------------------------\n");
+    printf("\n------ MENU DE OPCOES -----\n\n");
     printf("1 - INICIAR JOGO\n");
     printf("0 - SAIR\n>> ");
     scanf("%d", &escolha);
@@ -55,7 +69,7 @@ int menu(){
 
 int main() {
     int cont, lin, col, posicao;
-    int contadorpartidas = 0;
+    int contadorpartidas = 1;
     int opcao = menu();
 
     if (opcao == 0){
@@ -63,7 +77,7 @@ int main() {
         return 0;
     }
 
-    while (contadorpartidas < 4) { // Joga até 4 partidas
+    while (contadorpartidas <= 4) { // Joga até 4 partidas
         char matriz[3][3] = {
             {'1', '2', '3'},
             {'4', '5', '6'},
@@ -72,7 +86,8 @@ int main() {
 
         for (cont = 0; cont < 9; cont++) {
             system("cls");
-            printf("------ R0DADA %d de 4 -------\n\n", cont+1);
+            printf("------ R0DADA %d de 4 -------\n", contadorpartidas);
+            exibirPlacar(vitoriasX, vitorias0);
             mostrar_tab(matriz);
 
             char marcador = (cont % 2 == 0) ? 'X' : 'O';
@@ -118,10 +133,7 @@ int main() {
                 break;
             }
         }
-
         contadorpartidas++;
-        printf(GREEN"\nEstatisticas: X: %d vitorias | O: %d vitorias | Empates: %d\n"RESET, vitoriasX, vitorias0, empate);
-        system("pause");
     }
 
     // Após as quatro partidas, verifica o vencedor geral
@@ -140,7 +152,7 @@ int main() {
 
         for (cont = 0; cont < 9; cont++) {
             system("cls");
-            printf("---- RODADA DE DESEMPATE ----\n");
+            printf("---- RODADA DE DESEMPATE ----\n\n");
             mostrar_tab(matriz);
 
             char marcador = (cont % 2 == 0) ? 'X' : 'O';
@@ -174,7 +186,7 @@ int main() {
             if (vencedor) {
                 system("cls");
                 mostrar_tab(matriz);
-                printf(GREEN"\nJogador %c venceu a rodada de desempate e eh o vencedor final!\n"RESET, vencedor);
+                printf(GREEN"\nJogador '%c' venceu a rodada de desempate e eh o vencedor final!\n"RESET, vencedor);
                 break;
             } else if (cont == 8) {
                 system("cls");
@@ -185,6 +197,6 @@ int main() {
         }
     }
 
-    printf("SAINDO DO JOGO\n");
+    printf("\nFIM DE JOGO...\n");
     return 0;
 }
