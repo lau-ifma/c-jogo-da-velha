@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 
 #define CYAN    "\033[36m"
 #define GREEN   "\033[32m"
@@ -120,11 +121,12 @@ void jogar_partida(char tab[3][3], Placar *placar) {
         char vencedor = verificar_vencedor(tab);
         if (vencedor) {
             system("cls");
-            mostrar_tab(tab);
             printf(GREEN"\nJogador %c venceu!\n"RESET, vencedor);
             if (vencedor == 'x') placar->vitoriasX++;
             else placar->vitoriasO++;
-            // system("pause");
+            exibir_placar(placar);
+            mostrar_tab(tab);
+            printf("\npressione qualquer tecla para continuar >> ");getch();
             break;
             
         } else if (cont == 8) {
