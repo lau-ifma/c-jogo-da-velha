@@ -86,7 +86,7 @@ void jogar_partida(char tab[3][3], Placar *placar) {
 
     for (int cont = 0; cont < 9; cont++) {
         system("cls");
-        printf("---- RODADA %d de 4 ----\n", (placar->rodadaAtual + 1));
+        printf("------ RODADA %d de 4 -------\n", (placar->rodadaAtual + 1));
         exibir_placar(placar);
         mostrar_tab(tab);
 
@@ -124,7 +124,7 @@ void jogar_partida(char tab[3][3], Placar *placar) {
             printf(GREEN"\nJogador %c venceu!\n"RESET, vencedor);
             if (vencedor == 'x') placar->vitoriasX++;
             else placar->vitoriasO++;
-            //system("pause");
+            // system("pause");
             break;
             
         } else if (cont == 8) {
@@ -180,11 +180,18 @@ void rodada_desempate(char tab[3][3], Placar *placar) {
             system("cls");
             mostrar_tab(tab);
             printf(GREEN"\nJogador '%c' venceu a rodada de desempate e eh o vencedor final!\n"RESET, vencedor);
+            vencedor == 'x' ? placar->vitoriasX++ : placar->vitoriasO++;
+            printf("\n------ PLACAR FINAL ------\n");
+            printf("  Vitorias x: %d       \n", placar->vitoriasX);
+            printf("  Vitorias o: %d       \n", placar->vitoriasO);
             return;
         } else if (cont == 8) {
             system("cls");
             mostrar_tab(tab);
             printf(RED"\nA rodada de desempate terminou em empate! O jogo finaliza empatado.\n"RESET);
+            printf("\n------ PLACAR FINAL ------\n");
+            printf("  Vitorias x: %d       \n", placar->vitoriasX);
+            printf("  Vitorias o: %d       \n", placar->vitoriasO);
             return;
         }
     }
