@@ -131,9 +131,11 @@ void jogar_partida(char tab[3][3], Placar *placar) {
             
         } else if (cont == 8) {
             system("cls");
-            mostrar_tab(tab);
-            printf("\nEmpate!\n");
+            printf(GREEN"\nEmpate!\n"RESET);
             placar->empate++;
+            exibir_placar(placar);
+            mostrar_tab(tab);
+            printf("\npressione qualquer tecla para continuar >> ");getch();
             break;
         }
     }
