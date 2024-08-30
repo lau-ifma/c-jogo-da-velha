@@ -124,7 +124,7 @@ void jogar_partida(char tab[3][3], Placar *placar) {
             printf(GREEN"\nJogador %c venceu!\n"RESET, vencedor);
             if (vencedor == 'x') placar->vitoriasX++;
             else placar->vitoriasO++;
-            system("pause");
+            //system("pause");
             break;
             
         } else if (cont == 8) {
