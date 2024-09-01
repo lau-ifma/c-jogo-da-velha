@@ -7,7 +7,6 @@
 #define RED     "\033[31m"
 #define RESET   "\033[0m"
 
-// Struct para armazenar o placar
 typedef struct {
     int vitoriasX;
     int vitoriasO;
@@ -21,8 +20,8 @@ void inicializar_tabuleiro(char tab[3][3]) {
         {'4', '5', '6'},
         {'7', '8', '9'}
     };
-
-    for (int i = 0; i < 3; i++) {
+    int i;
+    for (i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             tab[i][j] = inicio[i][j];
         }
@@ -38,7 +37,8 @@ void mostrar_tab(char tab[3][3]) {
 }
 
 char verificar_vencedor(char tab[3][3]) {
-    for (int i = 0; i < 3; i++) {
+    int i;
+    for (i = 0; i < 3; i++) {
         if (tab[i][0] == tab[i][1] && tab[i][1] == tab[i][2]) {
             return tab[i][0];
         }
@@ -60,8 +60,8 @@ void exibir_placar(Placar *placar) {
     printf("------------------------------------\n");
     printf("--------   PLACAR DO JOGO   --------\n");
     printf("------------------------------------\n");
-    printf("  Jogador 'x': %d       \n", placar->vitoriasX);
-    printf("  Jogador 'o': %d       \n", placar->vitoriasO);
+    printf("  Jogador x: %d       \n", placar->vitoriasX);
+    printf("  Jogador o: %d       \n", placar->vitoriasO);
     printf("------------------------------------\n");
     printf(RESET);
 }
@@ -83,9 +83,8 @@ int menu() {
 }
 
 void jogar_partida(char tab[3][3], Placar *placar) {
-    int lin, col, posicao;
-
-    for (int cont = 0; cont < 9; cont++) {
+    int lin, col, posicao, cont;
+    for (cont = 0; cont < 9; cont++) {
         system("cls");
         printf("---------- RODADA %d de 4 -----------\n", (placar->rodadaAtual + 1));
         exibir_placar(placar);
@@ -93,7 +92,7 @@ void jogar_partida(char tab[3][3], Placar *placar) {
 
         char marcador = (cont % 2 == 0) ? 'x' : 'o';
 
-        printf("\n\nJogador '%c', escolha uma posicao [1-9]: ", marcador);
+        printf("\n\nJogador '%c', escolha uma posicao livre [1-9]: ", marcador);
         scanf("%d", &posicao);
 
         switch (posicao) {
@@ -122,13 +121,13 @@ void jogar_partida(char tab[3][3], Placar *placar) {
         if (vencedor) {
             system("cls");
             printf(GREEN"\nJogador '%c' venceu!\n"RESET, vencedor);
-            if (vencedor == 'x') placar->vitoriasX++;
-            else placar->vitoriasO++;
+            if (vencedor == 'x') {placar->vitoriasX++;}
+            else {placar->vitoriasO++;}
             exibir_placar(placar);
             mostrar_tab(tab);
-            printf("\nPressione qualquer tecla para avancar\npara a proxima rodada >> ");getch();
+            printf("\nPressione qualquer tecla para avancar\npara a proxima rodada >> "); getch();
             break;
-            
+
         } else if (cont == 8) {
             system("cls");
             printf(GREEN"\nEmpate!\n"RESET);
@@ -143,17 +142,16 @@ void jogar_partida(char tab[3][3], Placar *placar) {
 }
 
 void rodada_desempate(char tab[3][3], Placar *placar) {
-    printf(GREEN"\nIniciando rodada de desempate!\n"RESET);
     inicializar_tabuleiro(tab);
-    int cont ;
+    int cont;
     for (cont = 0; cont < 9; cont++) {
         system("cls");
-        printf("-------- RODADA DE DESEMPATE --------\n\n");
+        printf(CYAN"-------- RODADA DE DESEMPATE --------\n\n"RESET);
         mostrar_tab(tab);
 
         char marcador = (cont % 2 == 0) ? 'x' : 'o';
         int posicao;
-        printf("\n\nJogador '%c', escolha uma posicao [1-9]: ", marcador);
+        printf("\n\nJogador '%c', escolha uma posicao livre [1-9]: ", marcador);
         scanf("%d", &posicao);
 
         int lin, col;
@@ -173,8 +171,7 @@ void rodada_desempate(char tab[3][3], Placar *placar) {
         if (tab[lin][col] == 'x' || tab[lin][col] == 'o') {
             printf(RED"Posicao ja ocupada! Tente novamente.\n"RESET);
             cont--;
-            system("pause");
-            continue;
+            system("pause"); continue;
         }
 
         tab[lin][col] = marcador;
@@ -183,7 +180,7 @@ void rodada_desempate(char tab[3][3], Placar *placar) {
         if (vencedor) {
             system("cls");
             mostrar_tab(tab);
-            printf(GREEN"\nJogador '%c' venceu a rodada de desempate e eh o vencedor final!\n"RESET, vencedor);
+            printf(GREEN"\nJogador '%c' venceu a rodada de desempate \nE eh o vencedor final!\n"RESET, vencedor);
             vencedor == 'x' ? placar->vitoriasX++ : placar->vitoriasO++;
             printf("\n---------- PLACAR FINAL ----------\n");
             printf("  Vitorias x: %d       \n", placar->vitoriasX);
@@ -192,7 +189,7 @@ void rodada_desempate(char tab[3][3], Placar *placar) {
         } else if (cont == 8) {
             system("cls");
             mostrar_tab(tab);
-            printf(RED"\nA rodada de desempate terminou em empate! O jogo finaliza empatado.\n"RESET);
+            printf(CYAN"\nA rodada de desempate terminou em empate!\nO jogo finaliza empatado.\n"RESET);
             printf("\n---------- PLACAR FINAL ----------\n");
             printf("  Vitorias x: %d       \n", placar->vitoriasX);
             printf("  Vitorias o: %d       \n", placar->vitoriasO);
@@ -202,22 +199,21 @@ void rodada_desempate(char tab[3][3], Placar *placar) {
 }
 
 int main() {
-    Placar placar = {0, 0, 0, 0};  // Inicializando o placar zerado
-    char tab[3][3];  // Tabuleiro do jogo
+    Placar placar = {0, 0, 0, 0};  // inicializando o placar zerado
+    char tab[3][3];  // tabuleiro do jogo
 
     int opcao = menu();
-
     if (opcao == 0) {
         printf("FIM DE JOGO.");
         return 0;
     }
-    int contadorpartidas;
-    for (contadorpartidas = 1; contadorpartidas <= 4; contadorpartidas++) {
+    int contador_partidas;
+    for (contador_partidas = 1; contador_partidas <= 4; contador_partidas++) {
         inicializar_tabuleiro(tab);
         jogar_partida(tab, &placar);
     }
 
-    // Após as quatro partidas, verifica se há empate
+    // depois das quatro partidas, verificando cso de empate
     if (placar.vitoriasX == placar.vitoriasO) {
         rodada_desempate(tab, &placar);
     } else if (placar.vitoriasX > placar.vitoriasO) {
@@ -226,12 +222,11 @@ int main() {
         printf("  Vitorias x: %d       \n", placar.vitoriasX);
         printf("  Vitorias o: %d       \n", placar.vitoriasO);
     } else {
+        printf(GREEN"\nJogador 'o' eh o vencedor final!\n"RESET);
         printf("\n---------- PLACAR FINAL ----------\n");
         printf("  Vitorias x: %d       \n", placar.vitoriasX);
         printf("  Vitorias o: %d       \n", placar.vitoriasO);
-        printf(GREEN"\nJogador 'o' eh o vencedor final!\n"RESET);
     }
-
     printf("\nFIM DE JOGO.\n");
     return 0;
 }
